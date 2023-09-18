@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
     # Installed app
     'core',
+    'user',
     'rest_framework',
 
     # Third_party apps
