@@ -11,7 +11,7 @@ CREATE_USER_URL = reverse('user:create')  # url for the api endpoint in the urls
 
 def create_user(**params):
     """Create and return a new user"""
-    return get_user_model().create_user(**params)
+    return get_user_model().objects.create_user(**params)
 
 
 class PublicUserApiTests(TestCase):
