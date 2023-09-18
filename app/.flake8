@@ -3,4 +3,10 @@ exclude =
   migrations,
   __pycache__,
   manage.py,
-  settings.py
+  settings.py,
+  models.py,
+  serializer.py,
+  admin.py,
+  views.py,
+  app.py,
+  urls.py
