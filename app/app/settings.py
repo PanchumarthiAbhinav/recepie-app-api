@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     # Installed app
     'core',
     'rest_framework',
-    'drf_spectacular'
+
+    # Third_party apps
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -140,5 +142,5 @@ SPECTACULAR_SETTINGS = {
 }
 
 REST_FRAMEWORK = {
-     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # drf-spectacular settings
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # drf-spectacular settings
 }
