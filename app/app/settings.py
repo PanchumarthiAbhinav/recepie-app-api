@@ -39,6 +39,8 @@ INSTALLED_APPS = [
 
     # Installed app
     'core',
+    'rest_framework',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +128,17 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
+
+# API Docs settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Recipe API',
+    'DESCRIPTION': 'Recipe project API Documents',
+    'VERSION': '1.0.0',
+    'SCHEMA_PATH_PREFIX': '/backend/api/*',
+    # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
+    'DISABLE_ERRORS_AND_WARNINGS': True,
+}
+
+REST_FRAMEWORK = {
+     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # drf-spectacular settings
+}
