@@ -29,4 +29,5 @@ urlpatterns = [
 
     # API ENDPOINTS
     path('api/user/', include('user.urls')),
+    path('', include('recipe.urls')),
 ]
