@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Recipe(models.Model):
     """Recipe db model"""
     user = models.ForeignKey(
-        settings.AUTH_MODEL,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
     title = models.CharField(max_length=255)
