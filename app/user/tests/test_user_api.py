@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 
 CREATE_USER_URL = reverse('user:create')  # url for the api endpoint in the urls.py
 USER_TOKEN_URL = reverse('user:token')
-ME_URL = reverse('user_me')
+ME_URL = reverse('user:me')
 
 
 def create_user(**params):
@@ -107,3 +107,65 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(USER_TOKEN_URL, payload)
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_authorized(self):
+        """Test authentication is required for users"""
+        res = self.client.get(ME_URL)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserApiTests(TestCase):
+    """APIs that require user authentication for access"""
+
+    def setUp(self) -> None:
+        self.user = create_user(
+            email='test@example.com',
+            password='testpass123',
+            name='benjamin'
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_user_profile_success(self):
+        """Test retrieving profile of authenticated(logged-in) user"""
+        res = self.client.get(ME_URL)
+        self.assertEqual(res.data, {
+            'email': self.user.email,
+            'name': self.user.name
+        })
+
+    def test_me_url_post_method_not_allowed(self):
+        """Test post method not allowed for this endpoint"""
+        res = self.client.post(ME_URL, {})
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_patch_method_on_user_profile(self):
+        """Testing PATCH method for this endpoint"""
+        payload = {
+            'name': 'Updated name',
+            'password': 'updated pssword'
+        }
+
+        res = self.client.patch(ME_URL, payload)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, payload['name'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_put_method_on_user_profile(self):
+        """Testing PUT method for this endpoint"""
+        payload = {
+            'name': 'Updated_paschal',
+            'email': 'kodi@example.com',
+            'password': 'updated pwd'
+        }
+        # Debugging statements
+        print(f"Expected name: {payload['name']}")
+        print(f"Actual name: {self.user.name}")
+
+        res = self.client.put(ME_URL, payload)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, payload['name'])
+        self.assertEqual(self.user.email, payload['email'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
