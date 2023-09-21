@@ -160,8 +160,8 @@ class PrivateUserApiTests(TestCase):
             'password': 'updated pwd'
         }
         # Debugging statements
-        print(f"Expected name: {payload['name']}")
-        print(f"Actual name: {self.user.name}")
+        # print(f"Expected name: {payload['name']}")
+        # print(f"Actual name: {self.user.name}")
 
         res = self.client.put(ME_URL, payload)
         self.user.refresh_from_db()
