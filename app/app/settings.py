@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Installed app
     'core',
     'user',
+    'recipe',
 
     # Third_party apps
     'drf_spectacular',
