@@ -16,6 +16,11 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 
+def detail_url(tag_id):
+    """Create and return a tag detail url"""
+    return reverse('recipe:tag-detail', args=[tag_id])
+
+
 def create_tag(user, **params):
     """Helper function for creating and returning tags"""
     defaults = {
@@ -68,3 +73,15 @@ class PrivateTagsApiTests(TestCase):
         serializer = TagSerializer(tag, many=True)
         self.assertEqual(res.data, serializer.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_updating_tag(self):
+        """Test for updating a tag"""
+        tag = create_tag(user=self.user)
+
+        payload = {'name': 'new_sample_tag_name'}
+        url = detail_url(tag_id=tag.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        tag.refresh_from_db()
+        self.assertEqual(tag.name, payload['name'])
