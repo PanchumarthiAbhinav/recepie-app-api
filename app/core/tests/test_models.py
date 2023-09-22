@@ -8,6 +8,10 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 
+def create_user(**params):
+    """Create and return a user"""
+    return get_user_model().objects.create_user(**params)
+
 class ModelTests(TestCase):
     """Test models"""
 
@@ -15,7 +19,7 @@ class ModelTests(TestCase):
         """Test creating user with email successfully"""
         email = 'test@example.com'
         password = '123456789'
-        user = get_user_model().objects.create_user(
+        user = create_user(
             email=email,
             password=password
         )
@@ -33,13 +37,13 @@ class ModelTests(TestCase):
         ]
 
         for email, expected in sample_emails:
-            user = get_user_model().objects.create_user(email, '123456789')
+            user = create_user(email=email, password='123456789')
             self.assertEqual(user.email, expected)
 
     def test_create_new_user_without_an_email(self):
         """Creating a user without an email raises a ValueError"""
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user('', '123456789')
+            create_user(email='', password='123456789')
 
     def test_create_superuser(self):
         """Test creation of superuser"""
@@ -54,7 +58,7 @@ class ModelTests(TestCase):
 
     def test_create_recipe_success(self):
         """Test creating recipe was successful"""
-        user = get_user_model().objects.create_user(
+        user = create_user(
             email='test@example.com',
             password='testpass123'
         )
@@ -66,3 +70,10 @@ class ModelTests(TestCase):
             description='sample_recipe_description',
         )
         self.assertEqual(str(recipe), recipe.title)
+
+    def test_create_recipe_tags_success(self):
+        """Test creating recipe tags successfully"""
+        user = create_user(email='test@example.com', password='testpass123')
+        tag = models.Tag.objects.create(user=user, name='Tag1')
+
+        self.assertEqual(str(tag), tag.name)
