@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from .views import RecipeViewSets
 
 router = DefaultRouter()
-router.register('recipes', viewset=RecipeViewSets)
+router.register('recipe', viewset=RecipeViewSets)
 
 app_name = 'recipe'
 
