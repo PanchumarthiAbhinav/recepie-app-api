@@ -2,7 +2,7 @@
 
 from decimal import Decimal
 
-from core.models import Recipe
+from core.models import Recipe, Tag
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -181,3 +181,55 @@ class PrivateRecipeApiTests(TestCase):
         res = self.client.delete(url)
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Recipe.objects.filter(id=recipe.id).exists())
+
+    def test_creating_recipe_with_new_tag(self):
+        """Test creating a recipe with tags"""
+        payload = {
+            'title': 'sample_title',
+            'time_minutes': 5,
+            'price': Decimal('9.45'),
+            'description': 'sample_recipe_description',
+            'link': 'https://example.com/recipe.pdf',
+            'tags': [
+                {'name': 'Thai'},
+                {'name': 'sushi'},
+            ]
+        }
+        res = self.client.post(RECIPE_URL, payload, format='json')
+
+        self.assertEquals(res.status_code, status.HTTP_201_CREATED)
+        recipes = Recipe.objects.filter(user=self.user)
+        self.assertEqual(recipes.count(), 1)
+        recipe = recipes[0]
+        self.assertEqual(recipe.tags.count(), 2)
+
+        for tag in payload['tags']:
+            exists = Recipe.objects.filter(
+                name=tag['name'],
+                user=self.user,
+            )
+            self.assertTrue(exists)
+
+    def test_create_recipe_with_existing_tags(self):
+        """Test creating recipe with tags in db"""
+        tag = Tag.objects.create(name='indinna meal', user=self.user)
+        payload = {
+            'title': 'Pongal',
+            'time_minutes': 50,
+            'price': Decimal('9.56'),
+            'tags': [{'name': 'indinna meal'}, {'name': 'Breakfast'}]
+        }
+        res = self.client.post(RECIPE_URL, payload, format='json')
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        recipes = Recipe.objects.filter(user=self.user)
+        self.assertEqual(recipes.count(), 1)
+        recipe = recipes[0]
+        self.assertEqual(recipe.tags.count(), 2)
+        self.assertIn(tag, recipe.tags.all())
+
+        for tag in payload['tags']:
+            exists = Recipe.objects.filter(
+                name=tag['name'],
+                user=self.user,
+            )
+            self.assertTrue(exists)
