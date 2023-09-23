@@ -36,6 +36,7 @@ def detail_url(ingredient_id):
     """Create and return an ingredient detail url"""
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
 
+
 class PublicIngredientsApiTests(TestCase):
     """Testing unauthenticated user request"""
 
@@ -93,3 +94,14 @@ class PrivateIngredientApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         ingredient.refresh_from_db()
         self.assertEqual(ingredient.name, payload['name'])
+
+    def test_delete_ingredient(self):
+        """Test deleting an ingredient"""
+        ingredient = create_ingredient(user=self.user)
+        url = detail_url(ingredient_id=ingredient.id)
+
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        user_ingredient = Ingredient.objects.filter(user=self.user)
+        self.assertFalse(user_ingredient.exists())
