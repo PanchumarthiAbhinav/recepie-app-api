@@ -349,23 +349,20 @@ class PrivateRecipeApiTests(TestCase):
         self.assertIn(new_ingredient, recipe.ingredients.all())
 
     def test_update_recipe_assign_ingredients(self):
-        """Test assigning an existing ingredient on recipe update """
+        """Test assigning an existing ingredient when updating a recipe."""
         recipe = create_recipe(user=self.user)
-        ingredient = create_ingredient(user=self.user)
-        recipe.ingredients.add(ingredient)
-        ingredient2 = create_ingredient(user=self.user, name='Chilly pepper')
+        ingredient1 = create_ingredient(user=self.user)
+        recipe.ingredients.add(ingredient1)
 
-        url = detail_url(recipe_id=recipe.id)
-        payload = {'ingredients': [{'name': 'Tomatoes'}]}
+        ingredient2 = Ingredient.objects.create(user=self.user, name='Chili')
+        payload = {'ingredients': [{'name': 'Chili'}]}
+        url = detail_url(recipe.id)
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        recipes = Recipe.objects.filter(user=self.user)
-        recipe = recipes[0]
-        self.assertEqual(recipes.count(), 1)
         self.assertEqual(recipe.ingredients.count(), 1)
         self.assertIn(ingredient2, recipe.ingredients.all())
-        self.assertNotIn(ingredient, recipe.ingredients.all())
+        self.assertNotIn(ingredient1, recipe.ingredients.all())
 
     def test_clear_recipe_ingredients(self):
         """Test clearing a specific recipe ingredients"""
