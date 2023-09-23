@@ -27,10 +27,14 @@ def create_ingredient(user, **params):
     default = {
         'name': 'sample_ingredient_name'
     }
-    default.update(**params)
+    default.update(params)
     ingredient = Ingredient.objects.create(user=user, **default)
     return ingredient
 
+
+def detail_url(ingredient_id):
+    """Create and return an ingredient detail url"""
+    return reverse('recipe:ingredient-detail', args=[ingredient_id])
 
 class PublicIngredientsApiTests(TestCase):
     """Testing unauthenticated user request"""
@@ -74,5 +78,18 @@ class PrivateIngredientApiTests(TestCase):
         serializer = IngredientsSerializer(ingredient, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-        self.assertEqual(res.data[0]['name'], ingredient.name)
-        self.assertEqual(res.data[0]['id'], ingredient.id)
+        # print(res.data)
+        self.assertEqual(len(res.data), 1)
+
+    def test_update_ingredients(self):
+        """Testing updating an ingredient"""
+        ingredient = create_ingredient(user=self.user)
+        payload = {
+            'name': 'new_sample_ingredient__name'
+        }
+        url = detail_url(ingredient_id=ingredient.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        ingredient.refresh_from_db()
+        self.assertEqual(ingredient.name, payload['name'])
