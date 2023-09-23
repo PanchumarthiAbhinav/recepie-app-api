@@ -10,7 +10,13 @@ from django.test import TestCase
 
 def create_user(**params):
     """Create and return a user"""
-    return get_user_model().objects.create_user(**params)
+    default = {
+        'email': 'test@example.com',
+        'password': 'testpass123'
+    }
+    default.update(params)
+    user = get_user_model().objects.create_user(**default)
+    return user
 
 class ModelTests(TestCase):
     """Test models"""
@@ -77,3 +83,10 @@ class ModelTests(TestCase):
         tag = models.Tag.objects.create(user=user, name='Tag1')
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_create_ingredient_success(self):
+        """Test creating an ingredient successfully"""
+        user = create_user()
+        ingredient = models.Ingredient.objects.create(user=user, name='test_ingredient_name')
+
+        self.assertEqual(str(ingredient), ingredient.name)
