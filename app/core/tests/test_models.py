@@ -2,6 +2,7 @@
 Test models
 """
 from decimal import Decimal
+from unittest.mock import patch
 
 from core import models
 from django.contrib.auth import get_user_model
@@ -17,6 +18,7 @@ def create_user(**params):
     default.update(params)
     user = get_user_model().objects.create_user(**default)
     return user
+
 
 class ModelTests(TestCase):
     """Test models"""
@@ -90,3 +92,12 @@ class ModelTests(TestCase):
         ingredient = models.Ingredient.objects.create(user=user, name='test_ingredient_name')
 
         self.assertEqual(str(ingredient), ingredient.name)
+
+    @patch('uuid.uuid4')
+    def test_recipe_file_name_uuid(self, mock_uuid):
+        """Test generating image path."""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file(None, 'example.jpg')
+
+        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
