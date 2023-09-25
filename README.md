@@ -7,9 +7,9 @@
 
 [Add some introduction about your project. What is the purpose of it? What problem does it solve? What it does?]
 
+RECIPE APP API is a Django rest api web application that enables users to do the following:-
 
-  RECIPE APP API is a web application to check the weather in any location in world! 
-  - Enter the name of the city you want to know the weather for. 
+- Perform CRUD operations on user recipes
   - Get the weather for your current location.
   - Get the weather forecast for up to 4 weeks!
 
@@ -17,14 +17,10 @@
 
 [Add the main technologies you used to build this project]
 
-**Example:**
-
-  - TypeScript
-  - React
-  - Redux
-  - TailwindCSS
-  - Node.js
-  - Express
+- Django
+- Django Rest Framework
+- Docker
+- Python
 
 # Installation
 
@@ -32,7 +28,7 @@
 
 **Example:**
 
-To install {YOUR_PROJECT_NAME} locally, please follow the steps below:
+To install RECIPE APP API locally, please follow the steps below:
   - Clone repo to your machine
   - Open the root of the project and install all dependencies with `npm i` / `yarn`
   - Project has various scripts to run:
