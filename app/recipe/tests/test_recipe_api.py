@@ -1,7 +1,10 @@
 """Test for recipe api endpoints"""
 
+import os
+import tempfile
 from decimal import Decimal
 
+from PIL import Image
 from core.models import Recipe, Tag, Ingredient
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -16,6 +19,11 @@ RECIPE_URL = reverse('recipe:recipe-list')
 def detail_url(recipe_id):
     """Create and return a recipe detail url"""
     return reverse('recipe:recipe-detail', args=[recipe_id])
+
+
+def image_upload_url(recipe_id):
+    """Create and return a recipe image url"""
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 
 def create_recipe(user, **params):
@@ -45,6 +53,7 @@ def create_ingredient(user, **params):
     default.update(params)
     ingredient = Ingredient.objects.create(user=user, **default)
     return ingredient
+
 
 
 class PublicRecipeApiTests(TestCase):
@@ -376,3 +385,41 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(recipe.ingredients.count(), 0)
+
+    class ImageUploadTestApi(TestCase):
+        """Test cas for image upload"""
+
+        def setUp(self) -> None:
+            self.client = APIClient()
+            self.user = create_user()
+            self.client.force_authenticate(user=self.user)
+            self.recipe = create_recipe(user=self.user)
+
+        def tearDown(self) -> None:
+            self.recipe.image.delete()
+
+        def test_upload_image_success(self):
+            """Test uploading a recipe image"""
+            url = image_upload_url(self.recipe.id)
+            with tempfile.NamedTemporaryFile(suffix='.jpg') as image_file:  # tempfile is a helper python module for
+                # creating temporary image files for image upload
+                img = Image.new('RGB', (10, 10))  # creates the image file
+                img.save(image_file, format='JPEG')  # saves it
+                """once image is saved the pointer goes to the end of the image file so seek 
+                takes the pointer back to the beginning of the image file to be uploaded"""
+                image_file.seek(0)
+                payload = {'image': image_file}  # adds it to the payload
+                res = self.client.post(url, payload, format='multipart')
+
+            self.recipe.refresh_from_db()
+            self.assertEqual(res.status_code, status.HTTP_200_OK)
+            self.assertIn('image', res.data)
+            self.assertTrue(os.path.exists(self.recipe.image.path))
+
+        def test_upload_bad_image_request(self):
+            """Test bad image upload request"""
+            url = image_upload_url(recipe_id=self.recipe.id)
+            payload = {'image': 'Noimageupload'}
+            res = self.client.post(url, payload, format='multipart')
+
+            self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
