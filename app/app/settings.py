@@ -146,6 +146,7 @@ SPECTACULAR_SETTINGS = {
     'SCHEMA_PATH_PREFIX': '/backend/api/*',
     # 'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
     'DISABLE_ERRORS_AND_WARNINGS': True,
+    'COMPONENT_SPLIT_REQUEST': True
 }
 
 REST_FRAMEWORK = {
