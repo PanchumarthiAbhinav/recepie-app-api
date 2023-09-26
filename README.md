@@ -7,16 +7,15 @@
 
 [Add some introduction about your project. What is the purpose of it? What problem does it solve? What it does?]
 
-RECIPE APP API is a Django rest api web application that enables users to do the following:-
+RECIPE APP API is a Django rest api web application that enables users to do the following: -
 
+- Create authenticated users
 - Perform CRUD operations on user recipes
-  - Apply various tags to recipes
-  - Add ingredients to recipes
-  - Add recipe images
+- Apply various tags to recipes
+- Add ingredients to recipes
+- Add recipe images
 
 # Technologies in use / Tech Stack / Built with
-
-[Add the main technologies you used to build this project]
 
 - Django
 - Django Rest Framework
