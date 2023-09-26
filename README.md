@@ -1,7 +1,7 @@
 
 # RECIPE APP API
 
-[PLACE_FOR_YOUR_IMAGE]
+[[PLACE_FOR_YOUR_IMAGE]]()
 
 [PLACE_TO_ADD_LINK_FOR_DEPLOYED_VERSION]
 
@@ -10,8 +10,9 @@
 RECIPE APP API is a Django rest api web application that enables users to do the following:-
 
 - Perform CRUD operations on user recipes
-  - Get the weather for your current location.
-  - Get the weather forecast for up to 4 weeks!
+  - Apply various tags to recipes
+  - Add ingredients to recipes
+  - Add recipe images
 
 # Technologies in use / Tech Stack / Built with
 
@@ -24,32 +25,40 @@ RECIPE APP API is a Django rest api web application that enables users to do the
 
 # Installation
 
-[Explain how to install your project locally. Technical person would want to clone your repo, check code and run it locally]
-
-**Example:**
-
 To install RECIPE APP API locally, please follow the steps below:
   - Clone repo to your machine
-  - Open the root of the project and install all dependencies with `npm i` / `yarn`
-  - Project has various scripts to run:
-    - `npm start` - running local version
-    - `npm run test` - run tests
 
 # What I have learned
 
-[Tell more about what you have learned while building this project]
+I learned the following from this project: -
 
-**Example:**
+- How to properly implement REST API best practices
+- How both a Django rest framework and Docker are used together
+- How to dockerize a django rest framework web application
+- How to authenticate and authorize users in a web application
+- How to properly write and structure my unit tests
+- How to properly implement TDD(Test Driven Development) in an application
+- How to serve static and media files using Docker
+- How to deploy a dockerized application to the cloud (AWS) etc.
 
-While I was building {YOUR_PROJECT_NAME} I have learned the fundamentals of React and Redux. I learned what is the difference between React Context API and Redux, and what works best for my current application. I have used Reat hooks like useEffect, useState. It was my first project using TypeScript and I have learned a lot about TypeScript type definitions and fundamentals.
+# What issues have I faced and how I resolved them?
 
-# What issues have I faced and how I resolved them
+On the start of the project, I already had a well-rounded knowledge of Django and Django rest framework but very limited
+knowledge
+on Docker and TDD(Test-driven development)
+These where the following issues I faced:-
 
-[Tell what was hard in the process of building the project. Tell about where have you feel stuck and how did you overcome this.]
-
-**Example:**
-
-When I tried to connect to the third-party API, I was not sure how to use fetch and what is the difference between async/await, what are Promises and how to use them. After some Googling I found out the MDN documentation about async/await and tried to use it in practice - it worked! 
+- I had a hard time writing the project docker and docker-compose.yaml files since it was my first time using docker I
+  had to google alot of docker
+  command and basic synthax how to manage and configure my project dependencies and directories for development and
+  deployment. Luckily,
+  thanks to my googling and use of chatGPT, I manage to at least get the containers running with the right settings
+- The concept of TDD was very foreign to me, it really changed my approach to how I built this application.
+  The fact I had to thoroughly think about how my code shows work before writing tests was very difficult for me because
+  I have never approached any of my
+  projects like this before. So I had to research on TDD using alot of Django YouTube videos where the instructor showed
+  their viewers how it's being implemented their
+  thought process and all
 
 # Source
 
@@ -60,4 +69,3 @@ When I tried to connect to the third-party API, I was not sure how to use fetch 
 This project is done as part of the SheCodes course curriculum. 
 
 
-# ---- TEMPLATE ENDS HERE ---- 
