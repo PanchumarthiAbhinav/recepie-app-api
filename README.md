@@ -5,8 +5,6 @@
 
 [PLACE_TO_ADD_LINK_FOR_DEPLOYED_VERSION]
 
-[Add some introduction about your project. What is the purpose of it? What problem does it solve? What it does?]
-
 RECIPE APP API is a Django rest api web application that enables users to do the following: -
 
 - Create authenticated users
@@ -14,6 +12,7 @@ RECIPE APP API is a Django rest api web application that enables users to do the
 - Apply various tags to recipes
 - Add ingredients to recipes
 - Add recipe images
+- Filter their recipes by TAGS or INGREDIENTS
 
 # Technologies in use / Tech Stack / Built with
 
@@ -24,8 +23,20 @@ RECIPE APP API is a Django rest api web application that enables users to do the
 
 # Installation
 
-To install RECIPE APP API locally, please follow the steps below:
-  - Clone repo to your machine
+## To install RECIPE APP API locally, please follow the steps below:
+
+- First, ensure you have the following installed on your machine
+    - Python
+    - Docker Desktop
+    - Git
+- Clone repo to your machine `git clone <repository URL>`
+- cd into the project directory
+- Open the project in your desired IDE(e.g., Pycharm or VS code)
+- Run the following commands
+    - `pip install -r requirements.txt` to install the project dependencies
+    - `docker-compose build` to build the projects docker image from the docker file
+    - `docker-compose up` to run the projects docker containers
+- Then go the project URL `http://127.0.0.1:8000/api/schema/swagger/` to view the API endpoints
 
 # What I have learned
 
