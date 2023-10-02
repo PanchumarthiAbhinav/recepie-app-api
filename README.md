@@ -70,12 +70,6 @@ These where the following issues I faced:-
   their viewers how it's being implemented their
   thought process and all
 
-# Source
 
-[Is this project was part of the course? Is it your own idea? Is it came from community?]
-
-**Example:**
-
-This project is done as part of the SheCodes course curriculum. 
 
 
