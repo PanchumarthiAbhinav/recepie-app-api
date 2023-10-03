@@ -1,7 +1,8 @@
 
 # RECIPE APP API
 
-[[PLACE_FOR_YOUR_IMAGE]]()
+![](https://github.com/Benji918/recepie-app-api/blob/main/readme%20files/recipe%20endpoints.jpeg)
+![](https://github.com/Benji918/recepie-app-api/blob/main/readme%20files/img.png)
 
 [PLACE_TO_ADD_LINK_FOR_DEPLOYED_VERSION]
 
