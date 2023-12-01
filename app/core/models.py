@@ -5,9 +5,12 @@ from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
-    PermissionsMixin,
 )
+from django.core.validators import RegexValidator
 from django.db import models
+
+
+
 
 
 def recipe_image_file(instance, filename):
@@ -17,7 +20,8 @@ def recipe_image_file(instance, filename):
 
     return os.path.join('uploads', 'recipe', filename)
 
-# Create your models here.
+
+
 class UserManager(BaseUserManager):
     """Manager for users"""
 
@@ -41,7 +45,8 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+
+class User(AbstractBaseUser):
     """ Model user in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
@@ -51,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
 
 
 class Recipe(models.Model):
@@ -67,9 +73,11 @@ class Recipe(models.Model):
     tags = models.ManyToManyField('Tag')
     ingredients = models.ManyToManyField('Ingredient')
     image = models.ImageField(null=True, upload_to=recipe_image_file)
+    chef_name = models.CharField(max_length=255, blank=True, validators=[RegexValidator(r'^[a-zA-Z]+$')])
 
     def __str__(self):
         return self.title
+
 
 
 class Tag(models.Model):
@@ -82,6 +90,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class Ingredient(models.Model):
