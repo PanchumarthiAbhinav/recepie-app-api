@@ -75,27 +75,5 @@ These where the following issues I faced:-
 
 ## Add Chef Endpoint
 
-The 'add_chef' endpoint allows users to update the chef's name for a specific recipe. This endpoint is used to handle POST requests and requires authentication.
-
-### Usage
-
-- URL: `/api/recipes/{recipe_id}/add_chef/`
-- Method: POST
-- Headers:
-  - Authorization: Token <user_token>
-- Body:
-  ```json
-  {
-    "chef_name": "<chef_name>"
-  }
-  ```
-
-### Permissions
-
-- Only the user who created the recipe can update the chef's name.
-
-### Validation
-
-- The chef's name field should only contain alphabetic characters.
 
 ```
