@@ -4,11 +4,10 @@ import uuid
 from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
+    BaseUserManager
 )
 from django.db import models
-
+from django.core.validators import RegexValidator
 
 def recipe_image_file(instance, filename):
     """Generate filename for new recipe image"""
@@ -41,7 +40,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     """ Model user in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
@@ -67,7 +66,9 @@ class Recipe(models.Model):
     tags = models.ManyToManyField('Tag')
     ingredients = models.ManyToManyField('Ingredient')
     image = models.ImageField(null=True, upload_to=recipe_image_file)
+    chef_name = models.CharField(max_length=255, blank=True, validators=[RegexValidator(r'^[a-zA-Z]+$')])
 
+    
     def __str__(self):
         return self.title
 
