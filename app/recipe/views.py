@@ -79,6 +79,19 @@ class RecipeViewSets(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(methods=['POST'], detail=True, url_path='add-chef')
+    def add_chef(self, request, pk=None):
+        """Add chef's name to a recipe"""
+        recipe = self.get_object()
+        if recipe.user != self.request.user:
+            return Response({'error': 'You are not allowed to perform this action.'}, status=status.HTTP_403_FORBIDDEN)
+        chef_name = request.data.get('chef_name')
+        if not chef_name:
+            return Response({'error': 'Chef name is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        recipe.chef_name = chef_name
+        recipe.save()
+        return Response({'message': 'Chef name added successfully.'}, status=status.HTTP_200_OK)
+
 
 @extend_schema_view(
     list=extend_schema(
