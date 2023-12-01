@@ -1,3 +1,4 @@
+```
 
 # RECIPE APP API
 
@@ -72,5 +73,27 @@ These where the following issues I faced:-
   thought process and all
 
 
+## Add Chef Endpoint
+
+The 'add_chef' endpoint allows authenticated users to update the chef's name for a specific recipe. This endpoint supports POST requests and requires the following parameters:
+
+- recipe_id: The ID of the recipe to update
+- chef_name: The new name of the chef
+
+Only the user who created the recipe can perform this action. The chef_name field should only contain alphabetic characters.
+
+Example usage:
+
+```
+POST /api/recipes/{recipe_id}/add_chef/
+{
+  "chef_name": "John Doe"
+}
+```
+
+This endpoint returns the updated recipe object with the new chef's name.
+
+Please note that the chef_name field is optional, and if not provided, the existing chef's name will remain unchanged.
 
 
+```
