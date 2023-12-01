@@ -1,5 +1,3 @@
-"""Endpoints for recipe API"""
-
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
@@ -14,4 +12,5 @@ app_name = 'recipe'
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('recipes/<int:pk>/add-chef/', RecipeViewSets.as_view({'post': 'add_chef'}), name='recipe-add-chef'),
 ]
