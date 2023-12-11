@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core',
     'user',
     'recipe',
+    'recipe_api',
 
     # Third_party apps
     'drf_spectacular',
