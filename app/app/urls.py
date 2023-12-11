@@ -32,6 +32,7 @@ urlpatterns = [
     # API ENDPOINTS
     path('api/user/', include('user.urls')),
     path('', include('recipe.urls')),
+    path('api/recipe/', include('recipe_api.urls')),
 ]
 
 if settings.DEBUG:
